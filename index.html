@@ -10,6 +10,55 @@
       crossorigin
     ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        margin: 0;
+        background-color: #f9f9f9;
+      }
+      .container {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .button-container {
+        margin-bottom: 20px;
+      }
+      .button {
+        width: 150px;
+        height: 50px;
+        margin: 0 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 25px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+      .list-item {
+        margin: 5px 0;
+        padding: 10px;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        transition: transform 0.2s;
+      }
+      .list-item:hover {
+        transform: scale(1.05);
+        background-color: #f8f9fa;
+      }
+    </style>
   </head>
   <body>
     <div id="mydiv"></div>
@@ -18,20 +67,32 @@
       const allData = Array.from({ length: 40 }, () =>
         Math.floor(Math.random() * 40)
       );
+
       function App() {
         const [currentList, setCurrentList] = React.useState(allData);
+
+        const sortNumbers = () => {
+          const sortedList = [...currentList].sort((a, b) => a - b);
+          setCurrentList(sortedList);
+        };
+
+        const showOddNumbers = () => {
+          const oddNumbers = [...currentList].filter((e) => e % 2 !== 0);
+          setCurrentList(oddNumbers);
+        };
+
         return (
-          <>
-            <div style={{ display: "flex" }}>
-              <button style={{ width: "100px", height: "100px" }}>Sort</button>
-              <button style={{ width: "100px", height: "100px" }}>
-                Filter Odd Numbers
-              </button>
+          <div className="container">
+            <div className="button-container">
+              <button onClick={sortNumbers} className="button">Sort</button>
+              <button onClick={showOddNumbers} className="button" style={{width:'15rem'}}>Filter Odd Numbers</button>
             </div>
-            {currentList.map((item, index) => (
-              <div key={index}> {item.toString()} </div>
-            ))}
-          </>
+            <div>
+              {currentList.map((item, index) => (
+                <div key={index} className="list-item">{item.toString()}</div>
+              ))}
+            </div>
+          </div>
         );
       }
 
